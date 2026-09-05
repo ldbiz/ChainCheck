@@ -1,0 +1,6 @@
+[metadata]
+lock_version = "4.5.0"
+
+[[package]]
+name = "evil-pkg"
+version = "1.2.3"

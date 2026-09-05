@@ -1,0 +1,1483 @@
+{
+  "oracle_reference": "8caa0f1934d8276cd7c56b546aa2579f5c96d1ce",
+  "intelligence": "intelligence/synthetic-aikido-malware.json",
+  "cases": [
+    {
+      "id": "npm-package-lock-v3-malware",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-lock",
+        "files": [
+          "npm/package-lock/v3-keyv/package-lock.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-package-lock-v1-malware",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-lock",
+        "files": [
+          "npm/package-lock/v1-flat-cache/package-lock.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "flat-cache",
+            "version": "6.1.24",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-package-lock-v2-malware",
+      "classification": "intentional-change",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "comment": "Genuine npm 8.19.4 lockfileVersion 2. Rust reads the packages map once; Python also walks legacy dependencies.",
+      "intelligence": "intelligence/v2-lockfile-malware.json",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-lock",
+        "files": [
+          "npm/package-lock/v2-left-pad/package-lock.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "left-pad",
+            "version": "1.3.0",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      },
+      "python_expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "left-pad",
+            "version": "1.3.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "left-pad",
+            "version": "1.3.0",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1,
+        "coverage": {}
+      },
+      "rust_direction": "v2-packages-map-not-legacy-dependencies"
+    },
+    {
+      "id": "npm-yarn-classic-malware",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "yarn-lock",
+        "files": [
+          "npm/yarn/classic-keyv/yarn.lock"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-pnpm-v9-malware",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "pnpm-lock",
+        "files": [
+          "npm/pnpm/v9-keyv/pnpm-lock.yaml"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-pnpm-v6-scoped-malware",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "pnpm-lock",
+        "files": [
+          "npm/pnpm/v6-scoped/pnpm-lock.yaml"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-bun-lock-token-malware",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "bun-lock",
+        "files": [
+          "npm/bun/text-keyv/bun.lock"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-text-match",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-package-json-exact-dependency",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-manifest",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/exact-dependency/package.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "manifest-dependency",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "manifest"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-package-json-wildcard-range",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-manifest",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/wildcard-range/package.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "manifest-dependency",
+            "package": "wildcard-malware",
+            "evidence_class": "manifest",
+            "wildcard": true
+          }
+        ],
+        "corroboration_keys_must_not_include": [
+          [
+            "wildcard-malware",
+            "^99.0.0"
+          ]
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-installed-package-high",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-installed",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/installed-keyv/node_modules/keyv/package.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "installed-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "installed"
+          }
+        ],
+        "exit_effect": 2
+      }
+    },
+    {
+      "id": "npm-wildcard-installed-high",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-installed",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/wildcard-installed/node_modules/wildcard-malware/package.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "installed-package",
+            "package": "wildcard-malware",
+            "version": "99.88.77",
+            "evidence_class": "installed"
+          }
+        ],
+        "exit_effect": 2
+      }
+    },
+    {
+      "id": "npm-opaque-installed-version",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-installed",
+      "intelligence": "intelligence/opaque-version-malware.json",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/opaque-installed/node_modules/opaque-version-pkg/package.json"
+        ]
+      },
+      "expected": {
+        "malware_pairs": [
+          [
+            "opaque-version-pkg",
+            "release-alpha"
+          ]
+        ],
+        "not_malware_queries": [
+          [
+            "opaque-version-pkg",
+            "1.0.0"
+          ]
+        ],
+        "exit_effect": 2,
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "installed-package",
+            "package": "opaque-version-pkg",
+            "version": "release-alpha",
+            "evidence_class": "installed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "npm-package-json-project-identity",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-manifest",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/project-identity/package.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "manifest-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "manifest"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-shrinkwrap-v3-walk",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "walk",
+        "files": [
+          "npm/shrinkwrap/v3-keyv"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "exit_effect": 1,
+        "coverage": {
+          "npm-lockfile": "ran",
+          "filesystem-walk": "ran"
+        }
+      }
+    },
+    {
+      "id": "walk-reaches-installed-package",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-installed",
+      "invocation": {
+        "kind": "walk",
+        "files": [
+          "npm/manifests/installed-keyv"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "installed-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "installed"
+          }
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "manifest": "ran"
+        }
+      }
+    },
+    {
+      "id": "campaign-preinstall-hook",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-manifest",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-json",
+        "files": [
+          "npm/manifests/preinstall-hook/package.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "suspicious-install-hook",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "campaign-benign-setup-mjs-info",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-payload",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "payload",
+        "files": [
+          "campaign/payloads/benign-setup.mjs"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "INFO",
+            "code": "payload-name",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "campaign-payload-preinstall-content-high",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-payload",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "payload",
+        "files": [
+          "campaign/payloads/preinstall-content/setup.mjs"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "payload-pattern",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 2
+      }
+    },
+    {
+      "id": "campaign-payload-injected-hash-confirmed",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-payload",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "payload",
+        "files": [
+          "campaign/payloads/preinstall-content/setup.mjs"
+        ],
+        "inject_payload_hash": true
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "CONFIRMED",
+            "code": "malware-hash",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 2
+      }
+    },
+    {
+      "id": "campaign-ide-vscode-strong",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-config",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "ide-config",
+        "files": [
+          "campaign/config/vscode-strong/tasks.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "malicious-config-content",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 2
+      }
+    },
+    {
+      "id": "campaign-claude-settings-weak",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-config",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "ide-config",
+        "files": [
+          "campaign/config/claude-weak/settings.json"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "config-ioc-reference",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "npm-log-argv-install",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-logs",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "npm-log",
+        "files": [
+          "npm/logs/argv-install.log"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "npm-install-log",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-log"
+          },
+          {
+            "severity": "HIGH",
+            "code": "campaign-ioc-log",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-logs": "ran"
+        }
+      }
+    },
+    {
+      "id": "npm-log-non-install-medium",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-logs",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "npm-log",
+        "files": [
+          "npm/logs/non-install.log"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "npm-install-log",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-log"
+          }
+        ],
+        "exit_effect": 1,
+        "coverage": {
+          "npm-logs": "ran"
+        }
+      }
+    },
+    {
+      "id": "npm-log-context-ioc-medium",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "npm-logs",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "npm-log",
+        "files": [
+          "npm/logs/campaign-weak.log"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "context-ioc-log",
+            "campaign_family": "ChainDrop/Shai-Hulud"
+          }
+        ],
+        "exit_effect": 1,
+        "coverage": {
+          "npm-logs": "ran"
+        }
+      }
+    },
+    {
+      "id": "npm-log-ideal-tree-place-dep-high",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-logs",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "npm-log",
+        "files": [
+          "npm/logs/ideal-tree-place-dep.log"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "npm-install-log",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-log"
+          }
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-logs": "ran"
+        }
+      }
+    },
+    {
+      "id": "npm-log-reify-high",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-logs",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "npm-log",
+        "files": [
+          "npm/logs/reify-install.log"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "npm-install-log",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-log"
+          }
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-logs": "ran"
+        }
+      }
+    },
+    {
+      "id": "npm-cache-download-medium",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-cache",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "npm-cache",
+        "files": [
+          "npm/cache/index-v5-keyv"
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "npm-cache-download",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-cache"
+          }
+        ],
+        "exit_effect": 1,
+        "coverage": {
+          "npm-cache": "ran"
+        }
+      }
+    },
+    {
+      "id": "lockfile-plus-cache-corroborates",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "corroboration",
+      "invocation": {
+        "kind": "compose",
+        "corroborate": true,
+        "steps": [
+          {
+            "artefact_type": "package-lock",
+            "files": [
+              "npm/package-lock/v3-keyv/package-lock.json"
+            ]
+          },
+          {
+            "artefact_type": "npm-cache",
+            "files": [
+              "npm/cache/index-v5-keyv"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "npm-cache-download",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-cache"
+          },
+          {
+            "severity": "HIGH",
+            "code": "corroborated-package",
+            "package": "keyv",
+            "version": "6.0.0"
+          }
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-cache": "ran"
+        }
+      }
+    },
+    {
+      "id": "bun-lock-plus-cache-corroborates",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "corroboration",
+      "invocation": {
+        "kind": "compose",
+        "corroborate": true,
+        "steps": [
+          {
+            "artefact_type": "bun-lock",
+            "files": [
+              "npm/bun/text-keyv/bun.lock"
+            ]
+          },
+          {
+            "artefact_type": "npm-cache",
+            "files": [
+              "npm/cache/index-v5-keyv"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-text-match",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "npm-cache-download",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-cache"
+          },
+          {
+            "severity": "HIGH",
+            "code": "corroborated-package",
+            "package": "keyv",
+            "version": "6.0.0"
+          }
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-cache": "ran"
+        }
+      }
+    },
+    {
+      "id": "installed-high-suppresses-corroboration",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "corroboration",
+      "invocation": {
+        "kind": "compose",
+        "corroborate": true,
+        "steps": [
+          {
+            "artefact_type": "package-json",
+            "files": [
+              "npm/manifests/installed-keyv/node_modules/keyv/package.json"
+            ]
+          },
+          {
+            "artefact_type": "package-lock",
+            "files": [
+              "npm/package-lock/v3-keyv/package-lock.json"
+            ]
+          },
+          {
+            "artefact_type": "npm-cache",
+            "files": [
+              "npm/cache/index-v5-keyv"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "HIGH",
+            "code": "installed-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "installed"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "npm-cache-download",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-cache"
+          }
+        ],
+        "absent_codes": [
+          "corroborated-package"
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-cache": "ran"
+        }
+      }
+    },
+    {
+      "id": "npm-log-high-suppresses-corroboration",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "corroboration",
+      "invocation": {
+        "kind": "compose",
+        "corroborate": true,
+        "steps": [
+          {
+            "artefact_type": "package-lock",
+            "files": [
+              "npm/package-lock/v3-keyv/package-lock.json"
+            ]
+          },
+          {
+            "artefact_type": "npm-log",
+            "files": [
+              "npm/logs/ideal-tree-place-dep.log"
+            ]
+          },
+          {
+            "artefact_type": "npm-cache",
+            "files": [
+              "npm/cache/index-v5-keyv"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "HIGH",
+            "code": "npm-install-log",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-log"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "npm-cache-download",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "npm-cache"
+          }
+        ],
+        "absent_codes": [
+          "corroborated-package"
+        ],
+        "exit_effect": 2,
+        "coverage": {
+          "npm-cache": "ran",
+          "npm-logs": "ran"
+        }
+      }
+    },
+    {
+      "id": "manifest-plus-lockfile-does-not-corroborate",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "corroboration",
+      "invocation": {
+        "kind": "compose",
+        "corroborate": true,
+        "steps": [
+          {
+            "artefact_type": "package-json",
+            "files": [
+              "npm/manifests/exact-dependency/package.json"
+            ]
+          },
+          {
+            "artefact_type": "package-lock",
+            "files": [
+              "npm/package-lock/v3-keyv/package-lock.json"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "findings": [
+          {
+            "severity": "MEDIUM",
+            "code": "manifest-dependency",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "manifest"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "keyv",
+            "version": "6.0.0",
+            "evidence_class": "lockfile"
+          },
+          {
+            "severity": "MEDIUM",
+            "code": "lockfile-package",
+            "package": "@cacheable/memory",
+            "version": "2.2.1",
+            "evidence_class": "lockfile"
+          }
+        ],
+        "absent_codes": [
+          "corroborated-package"
+        ],
+        "exit_effect": 1
+      }
+    },
+    {
+      "id": "negative-clean-package-lock",
+      "classification": "compatibility",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "artefact",
+        "artefact_type": "package-lock",
+        "files": [
+          "negative/clean-package-lock/package-lock.json"
+        ]
+      },
+      "expected": {
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "intel-synthetic-feed-semantics",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/synthetic-aikido-malware.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 4,
+        "wildcards": [
+          "wildcard-malware"
+        ],
+        "malware_pairs": [
+          [
+            "keyv",
+            "6.0.0"
+          ],
+          [
+            "flat-cache",
+            "6.1.24"
+          ],
+          [
+            "@cacheable/memory",
+            "2.2.1"
+          ]
+        ],
+        "malware_queries": [
+          [
+            "wildcard-malware",
+            "123.4.5"
+          ]
+        ],
+        "not_malware_queries": [
+          [
+            "telemetry-package",
+            "1.0.0"
+          ],
+          [
+            "protest-package",
+            "1.0.0"
+          ],
+          [
+            "unknown-package",
+            "1.0.0"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "intel-invalid-top-level",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/invalid-top-level.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 0,
+        "findings": [],
+        "exit_effect": 4
+      }
+    },
+    {
+      "id": "intel-empty-zero-malware",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/empty.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 0,
+        "findings": [],
+        "exit_effect": 4
+      }
+    },
+    {
+      "id": "intel-telemetry-only-zero-count",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/telemetry-only.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 0,
+        "not_malware_queries": [
+          [
+            "telemetry-package",
+            "1.0.0"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 4
+      }
+    },
+    {
+      "id": "intel-protestware-only-zero-count",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/protestware-only.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 0,
+        "not_malware_queries": [
+          [
+            "protest-package",
+            "1.0.0"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 4
+      }
+    },
+    {
+      "id": "intel-unknown-status-zero-count",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/unknown-status.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 0,
+        "not_malware_queries": [
+          [
+            "unknown-package",
+            "1.0.0"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 4
+      }
+    },
+    {
+      "id": "intel-wildcard-only",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/wildcard-only.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 1,
+        "wildcards": [
+          "wildcard-malware"
+        ],
+        "malware_queries": [
+          [
+            "wildcard-malware",
+            "9.9.9"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "intel-malformed-records-ignored",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/mixed-malformed-and-valid.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 1,
+        "malware_pairs": [
+          [
+            "keyv",
+            "6.0.0"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "intel-extra-fields-accepted",
+      "classification": "compatibility",
+      "ecosystem": "intelligence",
+      "detector": "aikido-feed",
+      "invocation": {
+        "kind": "feed",
+        "files": [
+          "intelligence/extra-fields-malware.json"
+        ]
+      },
+      "expected": {
+        "feed_count": 1,
+        "malware_pairs": [
+          [
+            "keyv",
+            "6.0.0"
+          ]
+        ],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "campaign-nodereal-domain-contextual",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-ioc",
+      "invocation": {
+        "kind": "content-ioc",
+        "text": "eth-mainnet.nodereal.io"
+      },
+      "expected": {
+        "ioc_high": [],
+        "ioc_medium": [
+          "eth-mainnet.nodereal.io"
+        ],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "campaign-contract-strong-alone",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-ioc",
+      "invocation": {
+        "kind": "content-ioc",
+        "text": "0xE1f2395ee43e45A1556EC6438a88c31B83493103"
+      },
+      "expected": {
+        "ioc_high": [
+          "0xE1f2395ee43e45A1556EC6438a88c31B83493103"
+        ],
+        "ioc_medium": [],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "campaign-nodereal-plus-contract-strong",
+      "classification": "compatibility",
+      "ecosystem": "campaign",
+      "detector": "campaign-ioc",
+      "invocation": {
+        "kind": "content-ioc",
+        "text": "https://eth-mainnet.nodereal.io/v3/0xE1f2395ee43e45A1556EC6438a88c31B83493103"
+      },
+      "expected": {
+        "ioc_high": [
+          "0xE1f2395ee43e45A1556EC6438a88c31B83493103",
+          "eth-mainnet.nodereal.io"
+        ],
+        "ioc_medium": [],
+        "findings": [],
+        "exit_effect": 0
+      }
+    },
+    {
+      "id": "cli-unknown-option-exit-64",
+      "classification": "compatibility",
+      "ecosystem": "cli",
+      "detector": "cli",
+      "invocation": {
+        "kind": "cli",
+        "cli_argv": [
+          "--chaincheck-oracle-not-an-option"
+        ]
+      },
+      "expected": {
+        "exit_effect": 64,
+        "findings": []
+      }
+    },
+    {
+      "id": "cli-root-plus-self-test-exit-64",
+      "classification": "compatibility",
+      "ecosystem": "cli",
+      "detector": "cli",
+      "invocation": {
+        "kind": "cli",
+        "cli_argv": [
+          ".",
+          "--self-test"
+        ]
+      },
+      "expected": {
+        "exit_effect": 64,
+        "findings": []
+      }
+    },
+    {
+      "id": "cli-nonexistent-root-exit-3",
+      "classification": "compatibility",
+      "ecosystem": "cli",
+      "detector": "cli",
+      "invocation": {
+        "kind": "cli",
+        "cli_argv": [
+          "/chaincheck-oracle-nonexistent-root-9f3c2a"
+        ]
+      },
+      "expected": {
+        "exit_effect": 3,
+        "findings": []
+      }
+    },
+    {
+      "id": "bun-lockb-unsupported-finding",
+      "classification": "intentional-change",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "walk",
+        "files": [
+          "npm/bun/binary-lockb"
+        ]
+      },
+      "python_expected": {
+        "findings": [
+          {
+            "severity": "INFO",
+            "code": "unsupported-lockfile"
+          }
+        ],
+        "exit_effect": 0,
+        "coverage": {
+          "bun-lockb": "skipped",
+          "filesystem-walk": "ran"
+        }
+      },
+      "rust_direction": "coverage-not-finding"
+    },
+    {
+      "id": "parse-error-lockfile-finding",
+      "classification": "intentional-change",
+      "ecosystem": "npm",
+      "detector": "npm-lockfile",
+      "invocation": {
+        "kind": "walk",
+        "files": [
+          "npm/package-lock/malformed"
+        ]
+      },
+      "python_expected": {
+        "findings": [
+          {
+            "severity": "INFO",
+            "code": "parse-error"
+          }
+        ],
+        "exit_effect": 0,
+        "coverage": {
+          "npm-lockfile": "partial",
+          "filesystem-walk": "partial"
+        }
+      },
+      "rust_direction": "coverage-not-finding"
+    },
+    {
+      "id": "parse-error-manifest-finding",
+      "classification": "intentional-change",
+      "ecosystem": "npm",
+      "detector": "npm-manifest",
+      "invocation": {
+        "kind": "walk",
+        "files": [
+          "npm/manifests/malformed"
+        ]
+      },
+      "python_expected": {
+        "findings": [
+          {
+            "severity": "INFO",
+            "code": "parse-error"
+          }
+        ],
+        "exit_effect": 0,
+        "coverage": {
+          "manifest": "partial",
+          "filesystem-walk": "partial"
+        }
+      },
+      "rust_direction": "coverage-not-finding"
+    }
+  ]
+}

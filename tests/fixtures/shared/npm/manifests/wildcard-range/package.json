@@ -1,0 +1,7 @@
+{
+  "name": "wildcard-manifest",
+  "version": "1.0.0",
+  "dependencies": {
+    "wildcard-malware": "^99.0.0"
+  }
+}

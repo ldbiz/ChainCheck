@@ -1,0 +1,6 @@
+{
+  "lockfileVersion": 1,
+  "packages": {
+    "keyv": ["keyv@6.0.0", "", {}, "sha512-placeholder"],
+  }
+}

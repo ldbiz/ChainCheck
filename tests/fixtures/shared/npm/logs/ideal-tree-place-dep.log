@@ -1,0 +1,4 @@
+41 verbose argv "view" "keyv@6.0.0"
+42 timing idealTree: building idealTree
+43 timing placeDep: placing keyv@6.0.0
+44 http fetch GET 200 https://registry.npmjs.org/keyv/-/keyv-6.0.0.tgz 120ms

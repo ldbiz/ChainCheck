@@ -1,0 +1,128 @@
+name: ChainCheck CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  rust:
+    name: Rust (cargo test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.98.0
+        with:
+          components: rustfmt
+      - name: Cargo fmt
+        run: cargo fmt --all -- --check
+      - name: Cargo test
+        run: cargo test --locked
+      - name: Native self-test
+        run: |
+          cargo build --locked
+          ./target/debug/chaincheck --self-test
+      - name: Native self-test from another directory
+        run: |
+          (cd /tmp && "${{ github.workspace }}/target/debug/chaincheck" --self-test)
+
+  release-gnu:
+    name: Release GNU (${{ matrix.artifact }})
+    if: >
+      github.event_name == 'pull_request' ||
+      github.ref == 'refs/heads/rust-conversion' ||
+      github.ref == 'refs/heads/main' ||
+      startsWith(github.ref, 'refs/tags/v')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+            artifact: chaincheck-linux-x86_64
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            artifact: chaincheck-linux-aarch64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.98.0
+        with:
+          targets: ${{ matrix.target }}
+      - name: Bash syntax check
+        run: |
+          bash -n scripts/smoke-release-artifact.sh
+          bash -n scripts/install.sh
+      - name: Release build
+        run: cargo build --locked --release --target ${{ matrix.target }}
+      - name: Name artifact and checksum
+        run: |
+          mkdir -p dist
+          cp "target/${{ matrix.target }}/release/chaincheck" "dist/${{ matrix.artifact }}"
+          chmod +x "dist/${{ matrix.artifact }}"
+          (cd dist && sha256sum "${{ matrix.artifact }}" > "${{ matrix.artifact }}.sha256")
+      - name: Smoke release artifact
+        run: scripts/smoke-release-artifact.sh "$PWD/dist/${{ matrix.artifact }}" "$PWD/dist/${{ matrix.artifact }}.sha256"
+      - name: Upload release artifacts
+        if: >
+          github.event_name == 'push' &&
+          (github.ref == 'refs/heads/rust-conversion' ||
+           github.ref == 'refs/heads/main' ||
+           startsWith(github.ref, 'refs/tags/v'))
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/${{ matrix.artifact }}
+            dist/${{ matrix.artifact }}.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: [rust, release-gnu]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: chaincheck-linux-*
+          merge-multiple: true
+          path: dist
+      - name: Verify tag matches Cargo version
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          expected="${tag#v}"
+          cargo_version=$(awk '
+            $0 == "[package]" { in_pkg = 1; next }
+            in_pkg && /^\[/ { exit }
+            in_pkg && $1 == "version" {
+              gsub(/"/, "", $3)
+              print $3
+              exit
+            }
+          ' Cargo.toml)
+          if [[ -z "$cargo_version" ]]; then
+            echo "Could not read package.version from Cargo.toml" >&2
+            exit 1
+          fi
+          if [[ "$expected" != "$cargo_version" ]]; then
+            echo "Tag $tag does not match Cargo.toml version $cargo_version" >&2
+            exit 1
+          fi
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" \
+            --verify-tag \
+            --title "ChainCheck $version" \
+            --notes "GNU Linux binaries and SHA-256 sidecars. Verify checksums before use; see the README for installation." \
+            dist/chaincheck-linux-x86_64 \
+            dist/chaincheck-linux-x86_64.sha256 \
+            dist/chaincheck-linux-aarch64 \
+            dist/chaincheck-linux-aarch64.sha256

@@ -1,0 +1,3 @@
+0 verbose argv "install" "--no-audit"
+42 http fetch GET 200 https://registry.npmjs.org/keyv/-/keyv-6.0.0.tgz 120ms
+43 http request https://npm-cache.com/router

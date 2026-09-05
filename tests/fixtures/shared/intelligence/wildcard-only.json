@@ -1,0 +1,3 @@
+[
+  {"package_name": "wildcard-malware", "version": "*", "reason": "MALWARE"}
+]

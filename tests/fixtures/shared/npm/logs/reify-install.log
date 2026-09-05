@@ -1,0 +1,3 @@
+0 verbose argv "view" "keyv@6.0.0"
+42 timing reify: reify starts
+43 http fetch GET 200 https://registry.npmjs.org/keyv/-/keyv-6.0.0.tgz 120ms

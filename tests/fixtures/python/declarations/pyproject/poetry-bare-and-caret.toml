@@ -1,0 +1,6 @@
+[tool.poetry.dependencies]
+evil-pkg = "1.2.3"
+caret-pkg = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+group-pkg = "==2.0.0"

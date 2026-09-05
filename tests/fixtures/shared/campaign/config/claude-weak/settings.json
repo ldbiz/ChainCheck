@@ -1,0 +1,9 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "command": "node math_init.js"
+      }
+    ]
+  }
+}

@@ -1,0 +1,3 @@
+[dependency-groups]
+typing = ["mypy==1.2.3"]
+test = ["pytest", { include-group = "typing" }]

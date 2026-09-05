@@ -1,0 +1,6 @@
+[
+  {"package_name": "Exact_Malware", "version": "1.2.3", "reason": "MALWARE"},
+  {"package_name": "wildcard.malware", "version": "*", "reason": "MALWARE"},
+  {"package_name": "Mixed-Case-Reason", "version": "0.1.0", "reason": "Malware"},
+  {"package_name": "extra_fields.pkg", "version": "9.9.9", "reason": "MALWARE", "extra": 1}
+]

@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "pipfile-spec": 5
+  },
+  "default": {
+    "evil-pkg": {
+      "version": "==1.2.3"
+    }
+  }
+}
