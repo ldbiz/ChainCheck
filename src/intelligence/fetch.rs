@@ -18,6 +18,7 @@ pub(crate) fn map_ureq_error(err: ureq::Error) -> FeedFailure {
     match err {
         ureq::Error::Timeout(_) => FeedFailure::Timeout,
         ureq::Error::BodyExceedsLimit(_) => FeedFailure::OversizedResponse,
+        ureq::Error::Io(e) if e.kind() == std::io::ErrorKind::TimedOut => FeedFailure::Timeout,
         _ => FeedFailure::Network,
     }
 }
@@ -147,10 +148,13 @@ mod tests {
         }
     }
 
+    use std::sync::mpsc;
+
     struct Served {
         url: String,
         handle: thread::JoinHandle<()>,
         captured_request: Arc<Mutex<Vec<u8>>>,
+        ready: mpsc::Receiver<()>,
     }
 
     fn serve_http(
@@ -164,12 +168,14 @@ mod tests {
         let captured = Arc::clone(&captured_request);
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind");
         let addr = listener.local_addr().expect("addr");
+        let (ready_tx, ready_rx) = mpsc::channel();
         let headers: Vec<(String, String)> = headers
             .iter()
             .map(|(k, v)| ((*k).to_owned(), (*v).to_owned()))
             .collect();
         let body = body.to_vec();
         let handle = thread::spawn(move || {
+            let _ = ready_tx.send(());
             let Ok((mut stream, _)) = listener.accept() else {
                 return;
             };
@@ -192,7 +198,26 @@ mod tests {
                 *guard = req;
             }
             if stall {
-                thread::sleep(Duration::from_millis(800));
+                let reason = match status {
+                    200 => "OK",
+                    304 => "Not Modified",
+                    404 => "Not Found",
+                    500 => "Internal Server Error",
+                    _ => "Error",
+                };
+                let mut head = format!(
+                    "HTTP/1.1 {status} {reason}\r\nConnection: close\r\nContent-Length: {}\r\n",
+                    body.len().max(1)
+                );
+                for (k, v) in &headers {
+                    if !k.eq_ignore_ascii_case("content-length") {
+                        head.push_str(&format!("{k}: {v}\r\n"));
+                    }
+                }
+                head.push_str("\r\n");
+                let _ = stream.write_all(head.as_bytes());
+                let _ = stream.flush();
+                thread::sleep(Duration::from_secs(2));
                 return;
             }
             let reason = match status {
@@ -238,7 +263,12 @@ mod tests {
             url: format!("http://{addr}/feed"),
             handle,
             captured_request,
+            ready: ready_rx,
         }
+    }
+
+    fn wait_ready(served: &Served) {
+        served.ready.recv().expect("server ready");
     }
 
     fn join(served: Served) {
@@ -305,7 +335,8 @@ mod tests {
     #[test]
     fn stall_is_timeout() {
         let served = serve_http(200, &[], VALID_NPM.as_bytes(), false, true);
-        let intel = fetch_feed_url(&served.url, Ecosystem::Npm, tiny_limits(4096, 150));
+        wait_ready(&served);
+        let intel = fetch_feed_url(&served.url, Ecosystem::Npm, tiny_limits(4096, 500));
         join(served);
         assert_eq!(
             intel,
